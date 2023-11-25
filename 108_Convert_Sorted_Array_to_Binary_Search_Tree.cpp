@@ -9,7 +9,67 @@ struct BTNode{
     BTNode * parent;
 };
 
+struct Node{
+    BTNode node;
+    Node *next;
+};
+
+struct Queue{
+    Node *front;
+    Node *end;
+};
+
+Queue * initializeQ(){
+    Queue *q = new Queue;
+    q->front = NULL;
+    q->end = NULL;
+    return q;
+}
+
+void enqueue(Queue *q, BTNode *node){
+    if(q->front == NULL){
+        Node *newnode = new Node;
+        newnode->node = node;
+        newnode->next = NULL;
+        q->front = newnode;
+        q->end->node->dat = value;
+        return;
+    }
+    else{
+        Node *newnode = new Node;
+        newnode->data = value;
+        newnode->next = NULL;
+        q->end->next = newnode;
+        q->end = newnode;
+        return;
+    }
+}
+
+int dequeue(Queue *q){
+    if (q->front == q->end){
+        int val = q->front->data;
+        q->front = NULL;
+        q->end = NULL;
+        return val;
+    }
+    else{
+        int val = q->front->data;
+        q->front = q->front->next;
+        return val;
+    }
+}
+
 void printBST(BTNode * root){
+    Queue *q1 = initializeQ();
+    Queue *q2 = initializeQ();
+
+    if((root->left != NULL) && (root->right != NULL)){
+        enqueue(q1, root->left->data);
+        enqueue(q1, root->right->data);
+    }
+
+
+
     
 }
 
