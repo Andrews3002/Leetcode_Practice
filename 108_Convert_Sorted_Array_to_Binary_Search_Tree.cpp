@@ -1,4 +1,5 @@
 #include<iostream>
+
 using namespace std;
 
 struct BTNode{
@@ -104,7 +105,6 @@ void printBST(BTNode * root){
 
 BTNode * initializeBST(int value){
     BTNode * newnode = new BTNode;
-
     newnode->data = value;
     newnode->left = NULL;
     newnode->right = NULL;
@@ -114,7 +114,7 @@ BTNode * initializeBST(int value){
 }
 
 void insertIntoBSt(BTNode * root, int value){
-    cout << endl;
+    
     if (value < root->data){
         if(root->left == NULL){
             root->left = initializeBST(value);
@@ -141,7 +141,14 @@ void insertIntoBSt(BTNode * root, int value){
 }
 
 BTNode * sortedArrayToBST(int nums[]){
-    int length = sizeof(nums)+1;
+
+    int length = 0;
+    int x = 0;
+
+    while (nums[x] != 0){
+        length++;
+        x++;
+    }
 
     int mid = nums[(length/2)-1];
 
