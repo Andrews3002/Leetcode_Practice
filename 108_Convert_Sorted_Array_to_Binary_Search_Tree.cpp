@@ -10,7 +10,7 @@ struct BTNode{
 };
 
 struct Node{
-    BTNode node;
+    BTNode *node;
     Node *next;
 };
 
@@ -32,12 +32,12 @@ void enqueue(Queue *q, BTNode *node){
         newnode->node = node;
         newnode->next = NULL;
         q->front = newnode;
-        q->end->node->dat = value;
+        q->end = q->front;
         return;
     }
     else{
         Node *newnode = new Node;
-        newnode->data = value;
+        newnode->node = node;
         newnode->next = NULL;
         q->end->next = newnode;
         q->end = newnode;
@@ -45,17 +45,24 @@ void enqueue(Queue *q, BTNode *node){
     }
 }
 
-int dequeue(Queue *q){
+void dequeue(Queue *q){
+    if (q->front == NULL){
+        return;
+    }
     if (q->front == q->end){
-        int val = q->front->data;
+        int val = q->front->node->data;
+        cout << val << " ";
         q->front = NULL;
         q->end = NULL;
-        return val;
+        return;
     }
     else{
-        int val = q->front->data;
+        int val = q->front->node->data;
+        Node *temp = q->front;
         q->front = q->front->next;
-        return val;
+        delete(temp);
+        cout << val << " ";
+        return;
     }
 }
 
@@ -63,14 +70,36 @@ void printBST(BTNode * root){
     Queue *q1 = initializeQ();
     Queue *q2 = initializeQ();
 
-    if((root->left != NULL) && (root->right != NULL)){
-        enqueue(q1, root->left->data);
-        enqueue(q1, root->right->data);
+    enqueue(q1,root);
+
+    BTNode *clone = root;
+
+    while ((q1->front != NULL) || (q2->front != NULL)){
+        while(q1->front != NULL){
+            if(q1->front->node->left != NULL){
+                enqueue(q2,q1->front->node->left);
+            }
+            if(q1->front->node->right != NULL){
+                enqueue(q2,q1->front->node->right);
+            }
+            dequeue(q1);
+        }
+
+        cout << endl;
+
+        while(q2->front != NULL){
+            if(q2->front->node->left != NULL){
+                enqueue(q1,q2->front->node->left);
+            }
+            if(q2->front->node->right != NULL){
+                enqueue(q1,q2->front->node->right);
+            }
+            dequeue(q2);
+        }
+        cout << endl;
     }
 
-
-
-    
+    return;  
 }
 
 BTNode * initializeBST(int value){
@@ -133,15 +162,11 @@ BTNode * sortedArrayToBST(int nums[]){
 
 int main(){
 
-    // int arr[5] = {1,2,3,4,5};
+    int arr[9] = {1,3,4,7,9};
 
-    // BTNode * root = sortedArrayToBST(arr);
-    
-    // cout << "root: " << root->data << endl;
-    // cout << "l: " << root->left->data << "    " << "r: " << root->right->data << endl;
-    // cout << "lr: " << root->left->right->data << "    " << "rr: " << root->right->right->data << endl;
+    BTNode * root = sortedArrayToBST(arr);
 
-    cout << "Hello World" << endl;
+    printBST(root);
 
     return 0;
 }
