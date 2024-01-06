@@ -2,16 +2,16 @@
 
 using namespace std;
 
-struct BTNode{
+struct BSTNode{
     int data;
 
-    BTNode * left;
-    BTNode * right;
-    BTNode * parent;
+    BSTNode * left;
+    BSTNode * right;
+    BSTNode * parent;
 };
 
 struct Node{
-    BTNode *node;
+    BSTNode *node;
     Node *next;
 };
 
@@ -27,7 +27,7 @@ Queue * initializeQ(){
     return q;
 }
 
-void enqueue(Queue *q, BTNode *node){
+void enqueue(Queue *q, BSTNode *node){
     if(q->front == NULL){
         Node *newnode = new Node;
         newnode->node = node;
@@ -67,13 +67,13 @@ void dequeue(Queue *q){
     }
 }
 
-void printBST(BTNode * root){
+void printBST(BSTNode * root){
     Queue *q1 = initializeQ();
     Queue *q2 = initializeQ();
 
     enqueue(q1,root);
 
-    BTNode *clone = root;
+    BSTNode *clone = root;
 
     while ((q1->front != NULL) || (q2->front != NULL)){
         while(q1->front != NULL){
@@ -103,8 +103,8 @@ void printBST(BTNode * root){
     return;  
 }
 
-BTNode * initializeBST(int value){
-    BTNode * newnode = new BTNode;
+BSTNode * initializeBST(int value){
+    BSTNode * newnode = new BSTNode;
     newnode->data = value;
     newnode->left = NULL;
     newnode->right = NULL;
@@ -113,7 +113,7 @@ BTNode * initializeBST(int value){
     return newnode;
 }
 
-void insertIntoBSt(BTNode * root, int value){
+void insertIntoBSt(BSTNode * root, int value){
     
     if (value < root->data){
         if(root->left == NULL){
@@ -140,19 +140,17 @@ void insertIntoBSt(BTNode * root, int value){
     return;
 }
 
-BTNode * sortedArrayToBST(int nums[]){
+BSTNode * sortedArrayToBST(int nums[], int length){
+    int mid;
 
-    int length = 0;
-    int x = 0;
-
-    while (nums[x] != 0){
-        length++;
-        x++;
+    if (length%2 == 0){
+        mid = (length/2)-1;
+    }
+    else{
+        mid = (length/2); 
     }
 
-    int mid = nums[(length/2)-1];
-
-    BTNode * root = initializeBST(nums[mid]);
+    BSTNode * root = initializeBST(nums[mid]);
 
     for (int i = 0; i < length; i++){
         if (i == mid){
@@ -160,18 +158,20 @@ BTNode * sortedArrayToBST(int nums[]){
         }
         else{
             insertIntoBSt(root, nums[i]);
-        }
-        
+        }       
     }
 
     return root;
 }
 
+
 int main(){
 
-    int arr[9] = {1,3,4,7,9};
+        int arr[8] = {1,3,5,7,9,10,11,12};
 
-    BTNode * root = sortedArrayToBST(arr);
+    int length = sizeof(arr)/sizeof(int);
+
+    BSTNode * root = sortedArrayToBST(arr,length);
 
     printBST(root);
 
