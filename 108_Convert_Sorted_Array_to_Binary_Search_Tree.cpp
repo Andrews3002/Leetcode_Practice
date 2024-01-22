@@ -4,11 +4,15 @@ using namespace std;
 
 struct BTNode
 {
+struct BSTNode{
     int data;
 
     BTNode *left;
     BTNode *right;
     BTNode *parent;
+    BSTNode * left;
+    BSTNode * right;
+    BSTNode * parent;
 };
 
 struct Node
